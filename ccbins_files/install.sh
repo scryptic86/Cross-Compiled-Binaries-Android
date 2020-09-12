@@ -1,4 +1,5 @@
 filever=2
+set -x
 # Keep current mod settings
 if [ -f $NVBASE/modules/$MODID/system/bin/ccbins ]; then
   ui_print "- Using current ccbin files/settings"
@@ -39,7 +40,7 @@ if [ -d $NVBASE/modules/terminalmods ]; then
   ui_print "   Good, keep it"
 else
   ui_print "   Terminal Modifications not module detected!"
-  ui_print "   Highly recommended to install from repo"
+  ui_print "   Installing!"
   if [[ `wget -S --spider https://github.com/Magisk-Modules-Repo/terminalmods/archive/master.zip 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
     wget -qO $TMPDIR/tmp.zip https://github.com/Magisk-Modules-Repo/terminalmods/archive/master.zip
     unzip -qo $TMPDIR/tmp.zip terminalmods-master/customize.sh terminalmods-master/module.prop 'terminalmods-master/custom/*' 'terminalmods-master/system/*' -d $MODULEROOT
