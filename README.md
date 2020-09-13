@@ -30,7 +30,6 @@ This repo contains a variety of static compiled binaries cross compiled for andr
 * Zstd (v1.4.5)
 
 ## Credits
-* [Busybox](https://busybox.net/)
 * [Daniel Stenberg](https://curl.haxx.se/)
 * [GNU](https://www.gnu.org/software)
 * [Google](https://github.com/google/brotli)
