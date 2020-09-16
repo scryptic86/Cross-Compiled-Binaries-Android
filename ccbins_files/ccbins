@@ -316,7 +316,8 @@ install_binary_menu() {
     for ichoice in $choice; do
       echo "$(grep -w "$ichoice:" $MODDIR/tmp | awk '{print $2 " " $3}' | sed "s| *$| $insloc|")" >> $MODDIR/.installed
       local binary=$(grep -w "$ichoice:" $MODDIR/tmp | awk '{print $2}')
-      local ibinary=$(echo $binary | tr '[:upper:]' '[:lower:]') extras="$(grep -w $binary $file | awk '{print $4}')" 
+      local ibinary=$(echo $binary | tr '[:upper:]' '[:lower:]')
+      eval local extras="$(grep -w $binary $file | awk '{print $4}')" 
       echo "Downloading $binary"
       mkdir -p $MODDIR$insloc
       install_binary -s
