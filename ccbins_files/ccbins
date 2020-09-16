@@ -119,7 +119,7 @@ info() {
   echo "$div"
   echo "Install location matters!"
   echo "You'll want to install binaries to the lowest priority location unless you want to overwrite any existing ones"
-  echo "Running 'echo $PATH' will show you the priority with highest being first"
+  echo "Running 'echo \$PATH' will show you the priority with highest being first"
   echo "Vendor is typically lowest and product is typically highest (if present)"
 }
 
