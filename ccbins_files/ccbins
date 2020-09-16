@@ -170,7 +170,7 @@ remove_binary() {
 install_binary() {
   [ "$1" == "-s" ] && local spin=true || spin=false
   [ "$file" == "$MODDIR/.binaries" ] && local url="https://github.com/Zackptg5/Cross-Compiled-Binaries-Android/raw/$branch/$ibinary" || local url="https://github.com/Zackptg5/Cross-Compiled-Binaries-Android/raw/$branch/$ibinary/dynamic"
-  for i in $(grep -w $binary $MODDIR/.binaries | awk '{print $3}' | sed "s/,/ /g"); do
+  for i in $(grep -w $binary $file | awk '{print $3}' | sed "s/,/ /g"); do
     check_conflicts
     $spin && { wget -O $MODDIR$insloc/$i $url/$i-$ARCH 2>/dev/null & e_spinner; } || wget -O $MODDIR$insloc/$i $url/$i-$ARCH 2>/dev/null
     set_perm $MODDIR$insloc/$i 0 2000 0755
