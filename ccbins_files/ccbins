@@ -279,6 +279,7 @@ remove_binary_menu() {
 }
 
 install_binary_menu() {
+[ "$1" == "-d" ] && local file=$MODDIR/.binaries-dynamic || local file=$MODDIR/.binaries
   clear
   while true; do
     if [ -s $MODDIR/.installed ]; then
@@ -286,9 +287,9 @@ install_binary_menu() {
       curbins="$(echo $curbins | sed 's| |\||g')"
     fi
     if [ -z "$curbins" ] || [ ! -s $MODDIR/.installed ]; then
-      cat $MODDIR/.binaries | awk '{print FNR + 1 ": " $1 " " $2}' > $MODDIR/tmp
+      cat $file | awk '{print FNR + 1 ": " $1 " " $2}' > $MODDIR/tmp
     else
-      grep -Ewv "$curbins" $MODDIR/.binaries | awk '{print FNR + 1 ": " $1 " " $2}' > $MODDIR/tmp
+      grep -Ewv "$curbins" $file | awk '{print FNR + 1 ": " $1 " " $2}' > $MODDIR/tmp
     fi
     [ -s $MODDIR/tmp ] && sed -i "1i0: None, go back to main menu\n1: Install all binaries listed below" $MODDIR/tmp || { print_pause "All binaries are installed!\n"; break; }
     echo "$div"
@@ -314,7 +315,7 @@ install_binary_menu() {
     for ichoice in $choice; do
       echo "$(grep -w "$ichoice:" $MODDIR/tmp | awk '{print $2 " " $3}' | sed "s| *$| $insloc|")" >> $MODDIR/.installed
       local binary=$(grep -w "$ichoice:" $MODDIR/tmp | awk '{print $2}')
-      local ibinary=$(echo $binary | tr '[:upper:]' '[:lower:]') extras="$(grep -w $binary $MODDIR/.binaries | awk '{print $4}')"
+      local ibinary=$(echo $binary | tr '[:upper:]' '[:lower:]') extras="$(grep -w $binary $file | awk '{print $4}')" 
       echo "Downloading $binary"
       mkdir -p $MODDIR$insloc
       install_binary -s
@@ -409,6 +410,7 @@ hidden_menu() {
   clear
 }
 
+API=`getprop ro.build.version.sdk`
 find $MODDIR/system -type l -delete
 sed -i '/find $MODDIR\/system -type l -delete/,+1 d' $MODDIR/system/bin/ccbins
 scriptver=11
@@ -434,8 +436,9 @@ fi
 if test_connection; then
   online=true
   echo -e "\nFetching available binaries"
-  rm -f $MODDIR/.binaries
+  rm -f $MODDIR/.binaries $MODDIR/.binaries-dynamic
   wget -qO $MODDIR/.binaries https://raw.githubusercontent.com/Zackptg5/Cross-Compiled-Binaries-Android/$branch/ccbins_files/includes.txt 2>/dev/null & e_spinner
+  wget -qO $MODDIR/.binaries-dynamic https://raw.githubusercontent.com/Zackptg5/Cross-Compiled-Binaries-Android/$branch/ccbins_files/includes-dynamic.txt 2>/dev/null & e_spinner
   echo " - Done"
   check_updates & e_spinner
   [ -f $MODDIR/.updated ] && { echo -e " - Applying mod updates and restarting"; ccbins && quit; } || echo " - Ccbins is up to date"
@@ -464,17 +467,18 @@ while true; do
   echo "3: List all downloadable binaries"
   echo "4: Remove binary"
   $online && echo "5: Install binary"
-  [ -s $MODDIR/.installed ] && echo "6: Backup current config"
-  [ -d $bakloc ] && echo -e "7: Restore last config\n8: Erase backup config"
+  $online && [ $API -ge 21 ] && echo "6: Install dynamic linked binary"
+  [ -s $MODDIR/.installed ] && echo "7: Backup current config"
+  [ -d $bakloc ] && echo -e "8: Restore last config\n9: Erase backup config"
   echo "Type 'q' at any time to quit"
   while true; do
     read -r choice?'--> '
     echo " "
     case $choice in
       0|1|2|3|4|99) break;;
-      5) $online && break || echo "Invalid option! Try again";;
-      6) [ -s $MODDIR/.installed ] && break || echo "Invalid option! Try again";;
-      7|8) [ -d $bakloc ] && break || echo "Invalid option! Try again";;
+      5|6) $online && break || echo "Invalid option! Try again";;
+      7) [ -s $MODDIR/.installed ] && break || echo "Invalid option! Try again";;
+      8|9) [ -d $bakloc ] && break || echo "Invalid option! Try again";;
       q) quit;;
       *) echo "Invalid option! Try again";;
     esac
@@ -487,9 +491,10 @@ while true; do
     3) cat $MODDIR/.binaries | awk '{print $1 " " $2}'; echo " ";;
     4) [ -s $MODDIR/.installed ] && remove_binary_menu || print_pause "No binaries installed!\n";;
     5) install_binary_menu;;
-    6) backup_config;;
-    7) restore_config;;
-    8) rm -rf $bakloc; print_pause "Backup config erased\n";;
+    6) install_binary_menu -d;;
+    7) backup_config;;
+    8) restore_config;;
+    9) rm -rf $bakloc; print_pause "Backup config erased\n";;
     99) hidden_menu;;
   esac
 done
