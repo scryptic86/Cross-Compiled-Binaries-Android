@@ -2,13 +2,13 @@
 This repo contains a variety of binaries cross compiled for android with Android NDK. All are static linked unless in a dynamic folder. Feel free to use them for whatever. Also contains some files for ccbins mod
 
 ## Currently includes:
-* Aria2 (v1.35.0) - dynamic has most features
+* Aria2 (v1.35.0) - dynamic has most features and works without need for root
 * Bash (v5.18)
 * Bc (v1.07.1)
 * Brotli (v1.0.9)
 * Coreutils (v8.32) - has selinux support, openssl support, and includes patches for advanced cp/mv (adds progress bar functionality)
 * Cpio (v2.12)
-* Curl (v7.72.0) - boringssl support and more - working ssl, dynamic has most features
+* Curl (v7.72.0) - boringssl support and more - working ssl, requires root, dynamic has most features
 * Diffutils (v3.7)
 * Ed (v1.16)
 * Findutils (v4.7.0)
