@@ -20,6 +20,9 @@ else
   mv -f $MODPATH/busybox-$ARCH32 $MODPATH/busybox
 fi
 set_perm $MODPATH/busybox 0 0 0755
+alias ping="$MODPATH/busybox ping"
+alias wget="$MODPATH/busybox wget"
+
 rm -f $MODPATH/busybox-*
 locs="$(grep '^locs=' $MODPATH/system/bin/ccbins)"
 eval $locs
