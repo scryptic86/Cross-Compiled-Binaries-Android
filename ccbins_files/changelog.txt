@@ -1,6 +1,7 @@
 12 - 9.16.2020
 * Added dynamic linked binaries
 * Use github rather than google for connection test since that's where everything's hosted anyways (and isn't blocked by the Great Firewall of China)
+* No need for post-fs-data script anymore
 
 11 - 9.12.2020
 * Further android 11 fixes
