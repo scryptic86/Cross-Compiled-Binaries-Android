@@ -35,7 +35,7 @@ if [ -d $NVBASE/modules/terminalmods ]; then
 else
   ui_print "   Terminal Modifications not module detected!"
   ui_print "   Installing!"
-  if [ "`wget -S --spider https://github.com/Magisk-Modules-Repo/terminalmods/archive/master.zip 2>&1 | grep 'HTTP/1.1 200 OK'`" ]; then
+  # if [ "`wget -S --spider https://github.com/Magisk-Modules-Repo/terminalmods/archive/master.zip 2>&1 | grep 'HTTP/1.1 200 OK'`" ]; then
     wget -qO $TMPDIR/tmp.zip https://github.com/Magisk-Modules-Repo/terminalmods/archive/master.zip
     unzip -qo $TMPDIR/tmp.zip terminalmods-master/customize.sh terminalmods-master/module.prop 'terminalmods-master/custom/*' 'terminalmods-master/system/*' -d $MODULEROOT
     mv -f $MODULEROOT/terminalmods-master $MODULEROOT/terminalmods
@@ -45,9 +45,9 @@ else
     mkdir $NVBASE/modules/terminalmods
     cp -f $MODULEROOT/terminalmods/module.prop $NVBASE/modules/terminalmods/
     touch $NVBASE/modules/terminalmods/update
-  else
-    ui_print "   Unable to download! Install through magisk manager!"
-  fi
+  # else
+    # ui_print "   Unable to download! Install through magisk manager!"
+  # fi
 fi
 
 # Cleanup
