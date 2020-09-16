@@ -24,6 +24,7 @@ This repo contains a variety of binaries cross compiled for android with Android
 * Patch (v2.7.6)
 * Patchelf (v0.10)
 * Sed (v4.8)
+* Sqlite3 (v3.33.0) - dynamic only
 * Strace (v5.5)
 * Tar (v1.32)
 * Vim (v8.2.1673)
@@ -44,6 +45,7 @@ This repo contains a variety of binaries cross compiled for android with Android
 * [Mikhail Grushinskiy](http://xmlstar.sourceforge.net)
 * [NixOS](https://nixos.org/patchelf.html)
 * [Partcyborg](https://github.com/Magisk-Modules-Repo/zsh_arm64)
+* [Sqlite](https://sqlite.org/index.html)
 * [Strace](https://github.com/strace/strace)
 * [topjohnwu](https://github.com/topjohnwu/ndk-box-kitchen)
 * [Vim](https://github.com/vim/vim)
