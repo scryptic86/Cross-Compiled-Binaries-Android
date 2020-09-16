@@ -65,7 +65,7 @@ check_updates() {
   echo -e "\nChecking for mod updates"
   rm -f $MODDIR/.updated $MODDIR/.updatedfiles
   wget -qO $MODDIR/.changelog https://raw.githubusercontent.com/Zackptg5/Cross-Compiled-Binaries-Android/$branch/ccbins_files/changelog.txt 2>/dev/null
-  for i in mod-util.sh,MODUTILVCODE system/bin/ccbins,scriptver post-fs-data.sh,filever service.sh,filever; do
+  for i in mod-util.sh,MODUTILVCODE system/bin/ccbins,scriptver service.sh,filever; do
     local file="$(echo $i | cut -d , -f1)" value="$(echo $i | cut -d , -f2)"
     if [ `wget -qO - https://raw.githubusercontent.com/Zackptg5/Cross-Compiled-Binaries-Android/$branch/ccbins_files/$(basename $file) 2>/dev/null | grep "^$value=" | cut -d = -f2` -gt `grep "^$value=" $MODDIR/$file | cut -d = -f2` ]; then
       echo "$scriptver" > $MODDIR/.updated
