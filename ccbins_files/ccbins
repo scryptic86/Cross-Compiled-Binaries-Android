@@ -113,7 +113,7 @@ info() {
   title_div "General Information"
   echo "$div"
   echo "This mod enables the installation of various binaries cross-compiled for android."
-  echo "All are static linked meaning they should work with any version of android."
+  echo "All are static linked meaning they should work with any version of android and won't require any extra libs/files."
   echo "There is a separate list of dynamic linked and will only show up if your device is running a recent enough version of android (5.0)"
   echo "The dynamic linked ones present either have a greater feature set than or don't have a static linked counterpart"
   echo "$div"
