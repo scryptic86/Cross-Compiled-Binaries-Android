@@ -104,7 +104,7 @@ list_installed() {
     echo "$div"
     title_div "$i"
     echo "$div"
-    grep -w $i $MODDIR/tmp | cut -d ' ' -f1-2
+    grep -w $i $MODDIR/tmp | cut -d ' ' -f1-2,4
   done
 }
 
