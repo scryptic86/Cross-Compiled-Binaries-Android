@@ -1,12 +1,10 @@
 Aria2 (v1.35.0) aria2c,aria2c.bin
-Aria2-Dynamic (v1.35.0) aria2c lib-$ARCH
 Bash (v5.18) bash etc
 Bc (v1.07.1) bc,dc
 Brotli (v1.0.9) brotli
 Coreutils (v8.32) coreutils
 Cpio (v2.12) cpio
 Curl (v7.72.0) curl
-Curl-Dynamic (v7.72.0) curl lib-$ARCH
 Diffutils (v3.7) cmp,diff3,diff,sdiff
 Ed (v1.16) ed,red
 Findutils (v4.7.0) find,frcode,locate,updatedb,xargs
@@ -14,14 +12,12 @@ Gawk (v5.1.0) gawk
 Grep (v3.4) egrep,fgrep,grep
 Gzip (v1.10) gunzip,gzexe,gzip,uncompress,zcat,zcmp,zdiff,zegrep,zfgrep,zforce,zgrep,zless,zmore,znew
 Htop (v3.0.1) htop
-Iw-dynamic (v5.8) iw
 Keycheck (v1.0) keycheck
 Nano (v5.2) nano,nano.bin etc,usr,rnano
 Openssl (v1.1.1.7) openssl
 Patch (v2.7.6) patch
 Patchelf (v0.10) patchelf
 Sed (v4.8) sed
-Sqlite3-dynamic (v3.33.0) sqlite lib-$ARCH
 Strace (v5.5) strace
 Tar (v1.32) tar
 Vim (v8.2.1673) vim,vimtutor usr,ex,rview,rvim,view,vimdiff
