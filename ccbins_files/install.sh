@@ -1,4 +1,4 @@
-filever=4
+filever=5
 # Keep current mod settings
 if [ -f $NVBASE/modules/$MODID/system/bin/ccbins ]; then
   ui_print "- Using current ccbin files/settings"
@@ -14,8 +14,8 @@ for i in service.sh mod-util.sh "system/bin/ccbins"; do
   wget -qO $MODPATH/$i https://github.com/Zackptg5/Cross-Compiled-Binaries-Android/raw/$branch/ccbins_files/$(basename $i) 2>/dev/null
 done
 set_perm $MODPATH/system/bin/ccbins 0 0 0755
-if [ "`wget -S --spider https://github.com/Magisk-Modules-Repo/busybox-ndk/raw/master/busybox-$ARCH-selinux 2>&1 | grep 'HTTP/1.1 200 OK'`" ]; then
-  wget -qO $MODPATH/busybox https://github.com/Magisk-Modules-Repo/busybox-ndk/raw/master/busybox-$ARCH-selinux 2>/dev/null
+if [ "`wget -S --spider https://github.com/Magisk-Modules-Repo/busybox-ndk/raw/master/busybox-$ARCH 2>&1 | grep 'HTTP/1.1 200 OK'`" ]; then
+  wget -qO $MODPATH/busybox https://github.com/Magisk-Modules-Repo/busybox-ndk/raw/master/busybox-$ARCH 2>/dev/null
 else
   mv -f $MODPATH/busybox-$ARCH32 $MODPATH/busybox
 fi
