@@ -189,7 +189,7 @@ install_binary() {
   [ "$file" == "$MODDIR/.binaries" ] && local url="https://github.com/Zackptg5/Cross-Compiled-Binaries-Android/raw/$branch/$ibinary" || local url="https://github.com/Zackptg5/Cross-Compiled-Binaries-Android/raw/$branch/$ibinary/dynamic"
   for i in $(grep -w $binary $file | awk '{print $3}' | sed "s/,/ /g"); do
     check_conflicts
-    $spin && { curl -o $MODDIR$insloc/$i $url/$i-$ARCH 2>/dev/null & e_spinner; } || curl -o $MODDIR$insloc/$i $url/$i-$ARCH 2>/dev/null
+    $spin && { curl -so $MODDIR$insloc/$i $url/$i-$ARCH 2>/dev/null & e_spinner; } || curl -so $MODDIR$insloc/$i $url/$i-$ARCH 2>/dev/null
     set_perm $MODDIR$insloc/$i 0 2000 0755
   done
   if [ "$extras" ] && [ ! -f $MODDIR/.$ibinary ]; then
@@ -218,7 +218,7 @@ install_ncursesw() {
   [ "$1" == "-u" ] && local update=true || local update=false
   $update && echo " - Updating NCursesw (`cat $MODDIR/.ncursesver` -> `cat $MODDIR/tmp`)" || echo " - Installing NCursesw v`cat $MODDIR/tmp`"
   mv -f $MODDIR/tmp $MODDIR/.ncursesver
-  curl -o $MODDIR/system/ncursesw.zip https://github.com/Zackptg5/Cross-Compiled-Binaries-Android/raw/$branch/ncursesw/ncursesw-$ARCH.zip 2>/dev/null
+  curl -so $MODDIR/system/ncursesw.zip https://github.com/Zackptg5/Cross-Compiled-Binaries-Android/raw/$branch/ncursesw/ncursesw-$ARCH.zip 2>/dev/null
   unzip -qod $MODDIR/system $MODDIR/system/ncursesw.zip
   rm -f $MODDIR/system/ncursesw.zip
   $update && echo " - NCursesw has been updated!" || echo " - NCursesw has been installed!"
