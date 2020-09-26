@@ -1,5 +1,6 @@
 15 - 9.25.2020
-* Change busybox binaries - fixes connection failed issues for some people
+* Go back to using google for ping check - github wasn't working for some people. Fallback to baidu if google fails (for chinese users)
+* Use curl rather than wget - some users were having issues with busybox wget
 
 14 - 9.18.2020
 * Another bug fix :/

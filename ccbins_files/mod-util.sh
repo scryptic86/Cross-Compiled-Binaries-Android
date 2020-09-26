@@ -7,7 +7,7 @@
 
 # Versions
 MODUTILVER=v2.6
-MODUTILVCODE=261
+MODUTILVCODE=262
 
 # Check A/B slot
 if [ -d /system_root ]; then
@@ -251,7 +251,15 @@ e_spinner() {
 # test_connection
 # tests if there's internet connection
 test_connection() {
-  (ping -q -c 1 -W 1 github.com >/dev/null 2>&1 & e_spinner "Testing internet connection") && echo " - OK" || { echo " - Error"; false; }
+  (
+  if ping -q -c 1 -W 1 google.com >/dev/null 2>&1; then
+    true
+  elif ping -q -c 1 -W 1 baidu.com >/dev/null 2>&1; then
+    true
+  else
+    false
+  fi & e_spinner "Testing internet connection"
+  ) && echo " - OK" || { echo " - Error"; false; }
 }
 
 # Log files will be uploaded to termbin.com
