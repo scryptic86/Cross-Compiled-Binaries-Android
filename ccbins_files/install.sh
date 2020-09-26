@@ -17,13 +17,10 @@ set_perm $MODPATH/system/bin/ccbins 0 0 0755
 if [ "`wget -S --spider https://github.com/Magisk-Modules-Repo/busybox-ndk/raw/master/busybox-$ARCH-selinux 2>&1 | grep 'HTTP/1.1 200 OK'`" ]; then
   curl -so $MODPATH/busybox https://github.com/Magisk-Modules-Repo/busybox-ndk/raw/master/busybox-$ARCH-selinux 2>/dev/null
 else
-  mv -f $MODPATH/busybox-$ARCH32 $MODPATH/busybox
+  cp -f $MODPATH/busybox-$ARCH32 $MODPATH/busybox
 fi
 set_perm $MODPATH/busybox 0 0 0755
-alias ping="$MODPATH/busybox ping"
-alias wget="$MODPATH/busybox wget"
 
-rm -f $MODPATH/busybox-* $MODPATH/curl-*
 locs="$(grep '^locs=' $MODPATH/system/bin/ccbins)"
 eval $locs
 for i in $locs; do
@@ -54,4 +51,4 @@ else
 fi
 
 # Cleanup
-rm -f $MODPATH/install.sh
+rm -f $MODPATH/busybox-* $MODPATH/curl-* $MODPATH/install.sh

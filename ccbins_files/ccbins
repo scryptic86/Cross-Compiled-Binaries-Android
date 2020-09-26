@@ -133,6 +133,41 @@ info() {
   echo "Vendor is typically lowest and product is typically highest (if present)"
 }
 
+binary_update_menu() {
+  clear
+  while true; do
+    echo "$div"
+    title_div "Binary Update Menu"
+    echo "$div"
+    echo "0: Go back to main menu"
+    if $autoupdate; then
+      echo "1: Disable automatic binary updates at launch"
+    else
+      echo "1: Enable automatic binary updates at launch (recommended)"
+      $online && echo "2: Check for binary updates"
+    fi
+    while true; do
+      read -r choice?'--> '
+      echo " "
+      case $choice in
+        0|1|2) break;;
+        q) quit;;
+        *) echo "Invalid option! Try again";;
+      esac
+    done
+    case $choice in
+      0) break;;
+      1) $autoupdate && touch .disable_autoupdate || rm -f .disable_autoupdate;;
+      2) if $autoupdate || ! $online; then
+           echo "Invalid option! Try again"
+         else
+           check_bin_updates & e_spinner
+           [ -f $MODDIR/tmp ] && echo -e " - Done\n" || echo -e " - Binaries are up to date\n"
+         fi;;
+    esac
+  done
+}
+
 list_locs() {
   rm -f $MODDIR/tmp
   local num=0
@@ -442,6 +477,7 @@ hidden_menu() {
 rm -f $MODDIR/tmp
 mod_head
 echo " "
+[ -f $MODDIR/.disable_autoupdate ] && autoupdate=false || autoupdate=true
 if [ -f $MODDIR/.updated ]; then
   echo "CCBins succesfully updated!"
   local oldver="$(cat $MODDIR/.updated)" newver="$scriptver"
@@ -463,8 +499,10 @@ if test_connection; then
   echo " - Done"
   check_updates & e_spinner
   [ -f $MODDIR/.updated ] && { echo -e " - Applying mod updates and restarting"; ccbins && quit; } || echo " - Ccbins is up to date"
-  check_bin_updates & e_spinner
-  [ -f $MODDIR/tmp ] && echo -e " - Done\n" || echo -e " - Binaries are up to date\n"
+  if $autoupdate; then
+    check_bin_updates & e_spinner
+    [ -f $MODDIR/tmp ] && echo -e " - Done\n" || echo -e " - Binaries are up to date\n"
+  fi
 else
   online=false
   echo -e "No internet connection!\nOnline functionality disabled"
@@ -479,28 +517,31 @@ while true; do
   echo "$div"
   echo "Current install location:"
   echo "$insloc"
+  echo "Auto-update binaries at launch:"
+  $autoupdate && echo "Enabled (recommended)" || echo "Disabled"
   echo "$div"
   title_div "Choose option"
   echo "$div"
   echo "0: Refresh CCbins (remove everything - start fresh)"
   echo "1: General Information"
   echo "2: Change install location"
-  echo "3: List all installed binaries"
-  echo "4: List all downloadable binaries"
-  echo "5: Remove binary"
-  $online && echo "6: Install binary"
-  $online && [ $API -ge 21 ] && echo "7: Install dynamic linked binary"
-  [ -s $MODDIR/.installed ] && echo "8: Backup current config"
-  [ -d $bakloc ] && echo -e "9: Restore last config\n10: Erase backup config"
+  echo "3: Binary Update Settings"
+  echo "4: List all installed binaries"
+  echo "5: List all downloadable binaries"
+  echo "6: Remove binary"
+  $online && echo "7: Install binary"
+  $online && [ $API -ge 21 ] && echo "8: Install dynamic linked binary"
+  [ -s $MODDIR/.installed ] && echo "9: Backup current config"
+  [ -d $bakloc ] && echo -e "10: Restore last config\n11: Erase backup config"
   echo "Type 'q' at any time to quit"
   while true; do
     read -r choice?'--> '
     echo " "
     case $choice in
-      0|1|2|3|4|5|99) break;;
-      6|7) $online && break || echo "Invalid option! Try again";;
-      8) [ -s $MODDIR/.installed ] && break || echo "Invalid option! Try again";;
-      9|10) [ -d $bakloc ] && break || echo "Invalid option! Try again";;
+      0|1|2|3|4|5|6|99) break;;
+      7|8) $online && break || echo "Invalid option! Try again";;
+      9) [ -s $MODDIR/.installed ] && break || echo "Invalid option! Try again";;
+      10|11) [ -d $bakloc ] && break || echo "Invalid option! Try again";;
       q) quit;;
       *) echo "Invalid option! Try again";;
     esac
@@ -510,14 +551,15 @@ while true; do
     0) reset_mod;;
     1) info;;
     2) change_loc;;
-    3) [ -s $MODDIR/.installed ] && list_installed || print_pause "No binaries installed!";;
-    4) cat $MODDIR/.binaries | awk '{print $1 " " $2}'; echo " ";;
-    5) [ -s $MODDIR/.installed ] && remove_binary_menu || print_pause "No binaries installed!\n";;
-    6) install_binary_menu;;
-    7) install_binary_menu -d;;
-    8) backup_config;;
-    9) restore_config;;
-    10) rm -rf $bakloc; print_pause "Backup config erased\n";;
+    3) binary_update_menu;;
+    4) [ -s $MODDIR/.installed ] && list_installed || print_pause "No binaries installed!";;
+    5) cat $MODDIR/.binaries | awk '{print $1 " " $2}'; echo " ";;
+    6) [ -s $MODDIR/.installed ] && remove_binary_menu || print_pause "No binaries installed!\n";;
+    7) install_binary_menu;;
+    8) install_binary_menu -d;;
+    9) backup_config;;
+    10) restore_config;;
+    11) rm -rf $bakloc; print_pause "Backup config erased\n";;
     99) hidden_menu;;
   esac
 done
