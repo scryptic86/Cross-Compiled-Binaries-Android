@@ -451,7 +451,7 @@ hidden_menu() {
     done
     case $choice in
       0) break;;
-      1) echo "Applying mod updates and restarting"
+      1) echo "Applying mod updates and restarting ccbins"
          force_update
          ;;
       2) echo "Which branch?"
@@ -498,7 +498,7 @@ if test_connection; then
   curl -so $MODDIR/.binaries-dynamic https://raw.githubusercontent.com/Zackptg5/Cross-Compiled-Binaries-Android/$branch/ccbins_files/includes-dynamic.txt 2>/dev/null & e_spinner
   echo " - Done"
   check_updates & e_spinner
-  [ -f $MODDIR/.updated ] && { echo -e " - Applying mod updates and restarting"; ccbins && quit; } || echo " - Ccbins is up to date"
+  [ -f $MODDIR/.updated ] && { echo -e " - Applying mod updates and restarting ccbins"; ccbins && quit; } || echo " - Ccbins is up to date"
   if $autoupdate; then
     check_bin_updates & e_spinner
     [ -f $MODDIR/tmp ] && echo " - Done" || echo " - Binaries are up to date"
@@ -521,6 +521,7 @@ while true; do
   echo "Auto-update binaries at launch:"
   $autoupdate && echo "Enabled (recommended)" || echo "Disabled"
   echo "$div"
+  [ "$branch" == "master" ] || echo -e "Current branch:\n$branch\n$div"
   title_div "Choose option"
   echo "$div"
   echo "0: Refresh CCbins (remove everything - start fresh)"
