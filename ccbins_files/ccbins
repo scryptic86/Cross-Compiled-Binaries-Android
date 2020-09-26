@@ -157,7 +157,7 @@ binary_update_menu() {
     done
     case $choice in
       0) break;;
-      1) $autoupdate && touch .disable_autoupdate || rm -f .disable_autoupdate;;
+      1) $autoupdate && touch $MODDIR/.disable_autoupdate || rm -f $MODDIR/.disable_autoupdate;;
       2) if $autoupdate || ! $online; then
            echo "Invalid option! Try again"
          else
@@ -517,6 +517,7 @@ while true; do
   echo "$div"
   echo "Current install location:"
   echo "$insloc"
+  echo "$div"
   echo "Auto-update binaries at launch:"
   $autoupdate && echo "Enabled (recommended)" || echo "Disabled"
   echo "$div"
