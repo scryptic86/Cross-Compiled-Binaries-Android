@@ -86,7 +86,7 @@ check_updates() {
 }
 
 find_conflicts() {
-  echo "Checking for conflicting modules"
+  echo -e "\nChecking for conflicting modules"
   rm -f $MODDIR/tmp
   [ -s $MODDIR/.installed ] || return 0
   local locs="$(awk '{print $3}' $MODDIR/.installed | xargs -n1 | sort -u)" binaries="$(awk '{print $1}' $MODDIR/.installed | xargs -n1 | sort -u)"
@@ -157,7 +157,7 @@ binary_update_menu() {
     done
     case $choice in
       0) break;;
-      1) $autoupdate && touch $MODDIR/.disable_autoupdate || rm -f $MODDIR/.disable_autoupdate;;
+      1) $autoupdate && { touch $MODDIR/.disable_autoupdate; autoupdate=false; } || { rm -f $MODDIR/.disable_autoupdate; autoupdate=true; };;
       2) if $autoupdate || ! $online; then
            echo "Invalid option! Try again"
          else
@@ -501,7 +501,7 @@ if test_connection; then
   [ -f $MODDIR/.updated ] && { echo -e " - Applying mod updates and restarting"; ccbins && quit; } || echo " - Ccbins is up to date"
   if $autoupdate; then
     check_bin_updates & e_spinner
-    [ -f $MODDIR/tmp ] && echo -e " - Done\n" || echo -e " - Binaries are up to date\n"
+    [ -f $MODDIR/tmp ] && echo " - Done" || echo " - Binaries are up to date"
   fi
 else
   online=false
