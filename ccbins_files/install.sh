@@ -23,7 +23,7 @@ set_perm $MODPATH/busybox 0 0 0755
 alias ping="$MODPATH/busybox ping"
 alias wget="$MODPATH/busybox wget"
 
-rm -f $MODPATH/busybox-*
+rm -f $MODPATH/busybox-* $MODPATH/curl-*
 locs="$(grep '^locs=' $MODPATH/system/bin/ccbins)"
 eval $locs
 for i in $locs; do
