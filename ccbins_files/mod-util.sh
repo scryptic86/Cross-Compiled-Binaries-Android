@@ -177,10 +177,12 @@ div="${Bl}$(printf '%*s' "${character_no}" '' | tr " " "=")${N}"
 # title_div [-c] <title>
 # based on $div with <title>
 title_div() {
+  set +x
   [ "$1" == "-c" ] && local character_no=$2 && shift 2
   [ -z "$1" ] && { local message=; no=0; } || { local message="$@ "; local no=$(echo "$@" | wc -c); }
   [ $character_no -gt $no ] && local extdiv=$((character_no-no)) || { echo "Invalid!"; return; }
   echo "${W}$message${N}${Bl}$(printf '%*s' "$extdiv" '' | tr " " "=")${N}"
+  set -x 2>$VERLOG
 }
 
 # set_file_prop <property> <value> <prop.file>
