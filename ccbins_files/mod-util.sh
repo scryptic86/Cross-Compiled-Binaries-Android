@@ -239,6 +239,7 @@ printf "\r${@} [${_indicator}]"
 
 # cmd & spinner <message>
 e_spinner() {
+  set -x
   PID=$!
   h=0; anim='-\|/';
   while [ -d /proc/$PID ]; do
@@ -246,6 +247,7 @@ e_spinner() {
     sleep 0.02
     printf "\r${@} [${anim:$h:1}]"
   done
+  set +x
 }
 
 # test_connection
