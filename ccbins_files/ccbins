@@ -518,6 +518,7 @@ mod_head
 echo " "
 [ -f $MODDIR/.disable_autoupdate ] && autoupdate=false || autoupdate=true
 if [ "$1" == "-f" ]; then
+  echo "Applying mod updates and restarting ccbins"
   force_update
 elif [ -f $MODDIR/.updated ]; then
   echo "CCBins succesfully updated!"
