@@ -39,7 +39,7 @@ dd6cb381a421682b39edd35f685e6c50  ccbins_files/changelog.txt
 d47055d634b4f4fb84d8b7d234c98dfd  ccbins_files/checksums.txt
 9e5de824dbe7585ee0d795deeb7944a6  ccbins_files/includes-dynamic.txt
 62eb07df6f544463965899181a99fdb6  ccbins_files/includes.txt
-5f86ab465776fb2ae18e845481fa8532  ccbins_files/install.sh
+2f5b3680ae6c109658a8dacfddd131db  ccbins_files/install.sh
 963b505462234b1966ab972143fc3899  ccbins_files/mod-util.sh
 ce46bcc37341c3ccc7c1cb07dfb1db9a  ccbins_files/service.sh
 bf708c2c427f361ec24637bf8065d378  coreutils/coreutils-arm

@@ -19,7 +19,7 @@ mv -f $MODPATH/checksums.txt $MODPATH/.checksums
 
 set_perm $MODPATH/system/bin/ccbins 0 0 0755
 
-if [ "`curl -I --connect-timeout 3 https://github.com/Magisk-Modules-Repo/busybox-ndk/raw/master/busybox-$ARCH-selinux | grep -q 'HTTP/.* 200'`" ]; then
+if curl -I --connect-timeout 3 https://github.com/Magisk-Modules-Repo/busybox-ndk/raw/master/busybox-$ARCH-selinux | grep -q 'HTTP/.* 200'; then
   curl -o $MODPATH/busybox https://github.com/Magisk-Modules-Repo/busybox-ndk/raw/master/busybox-$ARCH-selinux
 else
   cp -f $MODPATH/busybox-$ARCH32 $MODPATH/busybox
@@ -40,7 +40,7 @@ if [ -d $NVBASE/modules/terminalmods ]; then
 else
   ui_print "   Terminal Modifications not module detected!"
   ui_print "   Installing!"
-  if [ "`curl -I --connect-timeout 3 https://github.com/Magisk-Modules-Repo/terminalmods/archive/master.zip | grep -q 'HTTP/.* 200'`" ]; then
+  if curl -I --connect-timeout 3 https://github.com/Magisk-Modules-Repo/terminalmods/archive/master.zip | grep -q 'HTTP/.* 200'; then
     curl -o $TMPDIR/tmp.zip https://github.com/Magisk-Modules-Repo/terminalmods/archive/master.zip
     unzip -qo $TMPDIR/tmp.zip terminalmods-master/customize.sh terminalmods-master/module.prop 'terminalmods-master/custom/*' 'terminalmods-master/system/*' -d $MODULEROOT
     mv -f $MODULEROOT/terminalmods-master $MODULEROOT/terminalmods
