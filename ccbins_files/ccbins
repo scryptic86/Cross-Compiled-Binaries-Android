@@ -516,7 +516,12 @@ rm -f $MODDIR/tmp
 mod_head
 echo " "
 [ -f $MODDIR/.disable_autoupdate ] && autoupdate=false || autoupdate=true
-if [ -f $MODDIR/.updated ]; then
+if [ "$1" == "-f" ]; then
+  force_update
+elif [ "$1" == "-c" ]; then
+  reset_mod
+  quit
+elif [ -f $MODDIR/.updated ]; then
   echo "CCBins succesfully updated!"
   local oldver="$(cat $MODDIR/.updated)" newver="$scriptver"
   local oldline=$(sed -n "/^$oldver/=" $MODDIR/.changelog) newline=$(sed -n "/^$newver/=" $MODDIR/.changelog)
