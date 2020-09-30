@@ -1,4 +1,4 @@
-filever=5
+filever=6
 # Keep current mod settings
 if [ -f $NVBASE/modules/$MODID/system/bin/ccbins ]; then
   ui_print "- Using current ccbin files/settings"
@@ -10,12 +10,17 @@ fi
 
 # Get mod files
 ui_print "- Downloading and installing needed files"
-for i in service.sh mod-util.sh "system/bin/ccbins"; do
-  curl -so $MODPATH/$i https://github.com/Zackptg5/Cross-Compiled-Binaries-Android/raw/$branch/ccbins_files/$(basename $i) 2>/dev/null
+for i in checksums.txt service.sh mod-util.sh "system/bin/ccbins"; do
+  curl -o $MODPATH/$i https://github.com/Zackptg5/Cross-Compiled-Binaries-Android/raw/$branch/ccbins_files/$(basename $i)
 done
+
+[ "$(head -n1 $MODPATH/checksums.txt)" == "checksums.txt" ] || abort "Download failed!"
+mv -f $MODPATH/checksums.txt $MODPATH/.checksums
+
 set_perm $MODPATH/system/bin/ccbins 0 0 0755
-if [ "`wget -S --spider https://github.com/Magisk-Modules-Repo/busybox-ndk/raw/master/busybox-$ARCH-selinux 2>&1 | grep 'HTTP/1.1 200 OK'`" ]; then
-  curl -so $MODPATH/busybox https://github.com/Magisk-Modules-Repo/busybox-ndk/raw/master/busybox-$ARCH-selinux 2>/dev/null
+
+if [ "`curl -I --connect-timeout 3 https://raw.githubusercontent.com/Magisk-Modules-Repo/busybox-ndk/master/busybox-$ARCH-selinux | grep -q 'HTTP/.* 200'`" ]; then
+  curl -o $MODPATH/busybox https://raw.githubusercontent.com/Magisk-Modules-Repo/busybox-ndk/master/busybox-$ARCH-selinux
 else
   cp -f $MODPATH/busybox-$ARCH32 $MODPATH/busybox
 fi
@@ -35,8 +40,8 @@ if [ -d $NVBASE/modules/terminalmods ]; then
 else
   ui_print "   Terminal Modifications not module detected!"
   ui_print "   Installing!"
-  if [ "`wget -S --spider https://github.com/Magisk-Modules-Repo/terminalmods/archive/master.zip 2>&1 | grep 'HTTP/1.1 200 OK'`" ]; then
-    curl -so $TMPDIR/tmp.zip https://github.com/Magisk-Modules-Repo/terminalmods/archive/master.zip
+  if [ "`curl -I --connect-timeout 3 https://github.com/Magisk-Modules-Repo/terminalmods/archive/master.zip | grep -q 'HTTP/.* 200'`" ]; then
+    curl -o $TMPDIR/tmp.zip https://github.com/Magisk-Modules-Repo/terminalmods/archive/master.zip
     unzip -qo $TMPDIR/tmp.zip terminalmods-master/customize.sh terminalmods-master/module.prop 'terminalmods-master/custom/*' 'terminalmods-master/system/*' -d $MODULEROOT
     mv -f $MODULEROOT/terminalmods-master $MODULEROOT/terminalmods
     sed -i "s|\$MODPATH|$MODULEROOT/terminalmods|g" $MODULEROOT/terminalmods/customize.sh

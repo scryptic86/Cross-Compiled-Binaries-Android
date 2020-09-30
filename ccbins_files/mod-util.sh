@@ -7,7 +7,7 @@
 
 # Versions
 MODUTILVER=v2.6
-MODUTILVCODE=262
+MODUTILVCODE=263
 
 # Check A/B slot
 if [ -d /system_root ]; then
@@ -256,9 +256,9 @@ e_spinner() {
 # tests if there's internet connection
 test_connection() {
   (
-  if ping -q -c 1 -W 1 google.com >/dev/null 2>&1; then
+  if curl -Is --connect-timeout 3 https://www.google.com | grep -q 'HTTP/.* 200'; then
     true
-  elif ping -q -c 1 -W 1 baidu.com >/dev/null 2>&1; then
+  elif curl -Is --connect-timeout 3 https://www.baidu.com | grep -q 'HTTP/.* 200'; then
     true
   else
     false

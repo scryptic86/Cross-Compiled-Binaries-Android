@@ -1,3 +1,7 @@
+16 - 10.xx.2020
+* Switch everything to curl, no need for ping or wget anymore
+* Add md5sum checks to verify downloads
+
 15 - 9.25.2020
 * Go back to using google for ping check - github wasn't working for some people. Fallback to baidu if google fails (for chinese users)
 * Use curl rather than wget - some users were having issues with busybox wget
