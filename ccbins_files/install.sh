@@ -19,8 +19,8 @@ mv -f $MODPATH/checksums.txt $MODPATH/.checksums
 
 set_perm $MODPATH/system/bin/ccbins 0 0 0755
 
-if [ "`curl -I --connect-timeout 3 https://raw.githubusercontent.com/Magisk-Modules-Repo/busybox-ndk/master/busybox-$ARCH-selinux | grep -q 'HTTP/.* 200'`" ]; then
-  curl -o $MODPATH/busybox https://raw.githubusercontent.com/Magisk-Modules-Repo/busybox-ndk/master/busybox-$ARCH-selinux
+if [ "`curl -I --connect-timeout 3 https://github.com/Magisk-Modules-Repo/busybox-ndk/raw/master/busybox-$ARCH-selinux | grep -q 'HTTP/.* 200'`" ]; then
+  curl -o $MODPATH/busybox https://github.com/Magisk-Modules-Repo/busybox-ndk/raw/master/busybox-$ARCH-selinux
 else
   cp -f $MODPATH/busybox-$ARCH32 $MODPATH/busybox
 fi
