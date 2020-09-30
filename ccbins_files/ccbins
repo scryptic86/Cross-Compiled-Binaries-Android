@@ -455,7 +455,7 @@ force_update() {
   for i in $MODDIR/mod-util.sh $MODDIR/system/bin/ccbins; do
     cp -f $i $i.bak
     download_file $i https://raw.githubusercontent.com/Zackptg5/Cross-Compiled-Binaries-Android/$branch/ccbins_files/$(basename $i)
-    [ -f $MODDIR/dlerror ] && { cp -f $i.bak $i; echo "Unable to $(basename $i)!"; quit; }
+    [ -f $MODDIR/dlerror ] && { cp -f $i.bak $i; echo "Unable to $(basename $i)!"; quit; } || rm -f $i.bak
   done
   umount -l /system/bin/ccbins
   mount -o bind $MODDIR/system/bin/ccbins /system/bin/ccbins
