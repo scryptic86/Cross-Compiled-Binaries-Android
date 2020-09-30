@@ -71,12 +71,13 @@ print_pause() {
 }
 
 download_file() {
+  dlerror=false
   local file="$1" url="$2"
   curl -o "$file" "$url"
   if [ "$file" == "$MODDIR/.checksums" ]; then
-    [ "$(head -n1 "$file")" == "checksums.txt" ] && return 0 || { echo "Checksums download failed!"; quit; }
+    [ "$(head -n1 "$file")" == "checksums.txt" ] || { echo "Checksums download failed!"; quit; }
   else
-    $(grep -Fq "`md5sum "$file" | awk '{print $1}'`" $MODDIR/.checksums) && return 0 || { rm -f "$file"; echo "Download error for $file!"; return 1; }
+    $(grep -Fq "`md5sum "$file" | awk '{print $1}'`" $MODDIR/.checksums) || { rm -f "$file"; echo "Download error for $file!"; dlerror=true; }
   fi
 }
 
@@ -256,14 +257,14 @@ install_binary() {
   for i in $(grep -w $binary $file | awk '{print $3}' | sed "s/,/ /g"); do
     check_conflicts
     $spin && { download_file $MODDIR$insloc/$i $url/$i-$ARCH & e_spinner; } || download_file $MODDIR$insloc/$i $url/$i-$ARCH
-    [ $? -eq 0 ] || { remove_binary; return 1; }
+    $dlerror && { remove_binary; return 1; }
     set_perm $MODDIR$insloc/$i 0 2000 0755
   done
   if [ "$extras" ] && [ ! -f $MODDIR/.$ibinary ]; then
     for i in $(echo $extras | sed "s|,| |g"); do
       if curl -I --connect-timeout 3 $url/$i.zip | grep -q 'HTTP/.* 200'; then
         $spin && { download_file $MODDIR/$i.zip $url/$i.zip & e_spinner; } || download_file $MODDIR/$i.zip $url/$i.zip
-        [ $? -eq 0 ] || { remove_binary; return 1; }
+        $dlerror && { remove_binary; return 1; }
         unzip -l $MODDIR/$i.zip | awk '{print $4}' | sed -e '/^$/d' -e '/^Name$/d' -e '/^----$/d' -e '/\/$/d' >> $MODDIR/.$ibinary
         unzip -qod $MODDIR/system $MODDIR/$i.zip
         for i in $(unzip -l $MODDIR/$i.zip | awk '{print $4}' | sed -e '/^$/d' -e '/^Name$/d' -e '/^----$/d' -e '/\/$/d'); do
@@ -280,7 +281,7 @@ install_binary() {
   fi
   if curl -I --connect-timeout 3 $url/install.sh | grep -q 'HTTP/.* 200'; then
     $spin && { download_file $MODDIR/install.sh $url/install.sh & e_spinner; } || download_file $MODDIR/install.sh $url/install.sh
-    [ $? -eq 0 ] || { remove_binary; return 1; }
+    $dlerror && { remove_binary; return 1; }
     . $MODDIR/install.sh
     rm -f $MODDIR/install.sh
   fi
@@ -291,7 +292,7 @@ install_ncursesw() {
   $update && echo " - Updating NCursesw (`cat $MODDIR/.ncursesver` -> `cat $MODDIR/tmp`)" || echo " - Installing NCursesw v`cat $MODDIR/tmp`"
   mv -f $MODDIR/tmp $MODDIR/.ncursesver
   download_file $MODDIR/system/ncursesw.zip https://github.com/Zackptg5/Cross-Compiled-Binaries-Android/raw/$branch/ncursesw/ncursesw-$ARCH.zip
-  if [ $? -eq 0 ]; then
+  if $dlerror; then
     unzip -qod $MODDIR/system $MODDIR/system/ncursesw.zip
     rm -f $MODDIR/system/ncursesw.zip
     $update && echo " - NCursesw has been updated!" || echo " - NCursesw has been installed!"
@@ -304,7 +305,7 @@ install_ncursesw() {
 check_bin_updates() {
   echo -e "\nChecking for binary updates"
   download_file $MODDIR/tmp https://github.com/Zackptg5/Cross-Compiled-Binaries-Android/raw/$branch/ncursesw/version.txt
-  [ $? -eq 0 ] || { echo "Binary update check failed!"; return 0; }
+  $dlerror && { echo "Binary update check failed!"; return 0; }
   if [ ! -f $MODDIR/.ncursesver ]; then
     install_ncursesw 
   else
@@ -453,7 +454,7 @@ force_update() {
   for i in $MODDIR/mod-util.sh $MODDIR/system/bin/ccbins; do
     cp -f $i $i.bak
     download_file $i https://raw.githubusercontent.com/Zackptg5/Cross-Compiled-Binaries-Android/$branch/ccbins_files/$(basename $i)
-    [ $? -eq 0 ] || { cp -f $i.bak $i; echo "Unable to $(basename $i)!"; quit; }
+    $dlerror && { cp -f $i.bak $i; echo "Unable to $(basename $i)!"; quit; }
   done
   umount -l /system/bin/ccbins
   mount -o bind $MODDIR/system/bin/ccbins /system/bin/ccbins
@@ -533,9 +534,9 @@ if test_connection; then
   rm -f $MODDIR/.binaries $MODDIR/.binaries-dynamic $MODDIR/.checksums
   download_file $MODDIR/.checksums https://raw.githubusercontent.com/Zackptg5/Cross-Compiled-Binaries-Android/$branch/ccbins_files/checksums.txt & e_spinner
   download_file $MODDIR/.binaries https://raw.githubusercontent.com/Zackptg5/Cross-Compiled-Binaries-Android/$branch/ccbins_files/includes.txt & e_spinner
-  [ $? -eq 0 ] || { echo "Unable to download binary list!"; quit; }
+  $dlerror && { echo "Unable to download binary list!"; quit; }
   download_file $MODDIR/.binaries-dynamic https://raw.githubusercontent.com/Zackptg5/Cross-Compiled-Binaries-Android/$branch/ccbins_files/includes-dynamic.txt & e_spinner
-  [ $? -eq 0 ] || { echo "Unable to download binary list!"; quit; }
+  $dlerror && { echo "Unable to download binary list!"; quit; }
   echo " - Done"
   check_updates & e_spinner
   [ -f $MODDIR/.updated ] && { echo -e " - Applying mod updates and restarting ccbins"; ccbins && quit; } || echo " - Ccbins is up to date"
