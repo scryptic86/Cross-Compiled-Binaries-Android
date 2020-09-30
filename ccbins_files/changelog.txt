@@ -1,7 +1,7 @@
 16 - 10.xx.2020
 * Switch everything to curl, no need for ping or wget anymore
 * Add md5sum checks to verify downloads
-* Added fix permissions option
+* Fixed permissions issues - clean install if you were having issues
 
 15 - 9.25.2020
 * Go back to using google for ping check - github wasn't working for some people. Fallback to baidu if google fails (for chinese users)

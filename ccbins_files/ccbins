@@ -266,6 +266,9 @@ install_binary() {
         [ $? -eq 0 ] || { remove_binary; return 1; }
         unzip -l $MODDIR/$i.zip | awk '{print $4}' | sed -e '/^$/d' -e '/^Name$/d' -e '/^----$/d' -e '/\/$/d' >> $MODDIR/.$ibinary
         unzip -qod $MODDIR/system $MODDIR/$i.zip
+        for i in $(unzip -l $MODDIR/$i.zip | awk '{print $4}' | sed -e '/^$/d' -e '/^Name$/d' -e '/^----$/d' -e '/\/$/d'); do
+          set_perm $MODDIR/system/$i 0 2000 0644
+        done
         rm -f $MODDIR/$i.zip
       else
         cd $MODDIR$insloc
@@ -565,23 +568,22 @@ while true; do
   echo "1: General Information"
   echo "2: Change install location"
   echo "3: Binary Update Settings"
-  echo "4: Fix Permissions (this may take a while)"
-  echo "5: List all installed binaries"
-  echo "6: List all downloadable binaries"
-  echo "7: Remove binary"
-  $online && echo "8: Install binary"
-  $online && [ $API -ge 21 ] && echo "9: Install dynamic linked binary"
-  [ -s $MODDIR/.installed ] && echo "10: Backup current config"
-  [ -d $bakloc ] && echo -e "11: Restore last config\n12: Erase backup config"
+  echo "4: List all installed binaries"
+  echo "5: List all downloadable binaries"
+  echo "6: Remove binary"
+  $online && echo "7: Install binary"
+  $online && [ $API -ge 21 ] && echo "8: Install dynamic linked binary"
+  [ -s $MODDIR/.installed ] && echo "9: Backup current config"
+  [ -d $bakloc ] && echo -e "10: Restore last config\n11: Erase backup config"
   echo "Type 'q' at any time to quit"
   while true; do
     read -r choice?'--> '
     echo " "
     case $choice in
-      0|1|2|3|4|5|6|7|99) break;;
-      8|9) $online && break || echo "Invalid option! Try again";;
-      10) [ -s $MODDIR/.installed ] && break || echo "Invalid option! Try again";;
-      11|12) [ -d $bakloc ] && break || echo "Invalid option! Try again";;
+      0|1|2|3|4|5|6|99) break;;
+      7|8) $online && break || echo "Invalid option! Try again";;
+      9) [ -s $MODDIR/.installed ] && break || echo "Invalid option! Try again";;
+      10|11) [ -d $bakloc ] && break || echo "Invalid option! Try again";;
       q) quit;;
       *) echo "Invalid option! Try again";;
     esac
@@ -592,15 +594,14 @@ while true; do
     1) info;;
     2) change_loc;;
     3) binary_update_menu;;
-    4) echo "Fixing permissions! This may take a while"; set_perm_recursive $MODDIR/system 0 2000 0755 0755 & e_spinner;;
-    5) [ -s $MODDIR/.installed ] && list_installed || print_pause "No binaries installed!";;
-    6) echo "Static:"; cat $MODDIR/.binaries | awk '{print $1 " " $2}'; echo " "; echo "Dynamic:"; cat $MODDIR/.binaries-dynamic | awk '{print $1 " " $2}'; echo " ";;
-    7) [ -s $MODDIR/.installed ] && remove_binary_menu || print_pause "No binaries installed!\n";;
-    8) install_binary_menu;;
-    9) install_binary_menu -d;;
-    10) backup_config;;
-    11) restore_config;;
-    12) rm -rf $bakloc; print_pause "Backup config erased\n";;
+    4) [ -s $MODDIR/.installed ] && list_installed || print_pause "No binaries installed!";;
+    5) echo "Static:"; cat $MODDIR/.binaries | awk '{print $1 " " $2}'; echo " "; echo "Dynamic:"; cat $MODDIR/.binaries-dynamic | awk '{print $1 " " $2}'; echo " ";;
+    6) [ -s $MODDIR/.installed ] && remove_binary_menu || print_pause "No binaries installed!\n";;
+    7) install_binary_menu;;
+    8) install_binary_menu -d;;
+    9) backup_config;;
+    10) restore_config;;
+    11) rm -rf $bakloc; print_pause "Backup config erased\n";;
     99) hidden_menu;;
   esac
 done
