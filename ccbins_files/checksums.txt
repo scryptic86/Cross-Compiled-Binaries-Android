@@ -265,7 +265,7 @@ ed6f64d91710757cdc4b4cb79a93994e  zip/zip-arm
 01c98d2f9e00de2ec96db8c23626ab99  zip/zip-arm64
 42b82eec93506d9c91515f23f319bf15  zip/zip-x64
 e5e95f5f571fe9bd5f2d349aa7c58c3a  zip/zip-x86
-cf13e6b9a913e270c937b35493dac82e  zsh/etc.zip
+a05a7eb9dbe051683495922b930e297e  zsh/etc.zip
 f8635df48e9b453ccd37a208b086b23d  zsh/usr.zip
 e137a161273e0c516ee366dc81d59a20  zsh/zsh-arm
 98e71e9ca12b8cc392e091dfe0581d2b  zsh/zsh-arm64
