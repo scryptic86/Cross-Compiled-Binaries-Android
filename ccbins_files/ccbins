@@ -82,6 +82,19 @@ download_file() {
 }
 
 reset_mod() {
+  echo "Are you sure you want to refresh ccbins?"
+  echo "1: Yes"
+  echo "2: No"
+  while true; do
+    read -r choice?'--> '
+    echo " "
+    case $choice in
+      1) break;;
+      2) return 0;;
+      q) quit;;
+      *) echo "Invalid option! Try again";;
+    esac
+  done
   local newloc=/data/adb/modules_update/$ID
   rm -rf $newloc
   mkdir -p /data/adb/modules_update/$ID/system/bin 2>/dev/null
@@ -125,6 +138,10 @@ find_conflicts() {
 }
 
 list_installed() {
+  clear
+  echo "$div"
+  title_div "Installed Binaries:"
+  echo "$div"
   local curlocs
   sort -k3 $MODDIR/.installed > $MODDIR/tmp
   sed -i 's/dynamic/(dynamic)/g' $MODDIR/tmp
@@ -137,6 +154,16 @@ list_installed() {
     title_div "$i"
     echo "$div"
     grep -w $i $MODDIR/tmp | cut -d ' ' -f1-2,4
+  done
+  echo -e "\nPress 1 to continue"
+  while true; do
+    read -r choice?'--> '
+    echo " "
+    case $choice in
+      1) break;;
+      q) quit;;
+      *) echo "Invalid option! Try again";;
+    esac
   done
 }
 
@@ -154,6 +181,16 @@ info() {
   echo "You'll want to install binaries to the lowest priority location unless you want to overwrite any existing ones"
   echo "Running 'echo \$PATH' will show you the priority with highest being first"
   echo "Vendor is typically lowest and product is typically highest (if present)"
+  echo -e "\nPress 1 to continue"
+  while true; do
+    read -r choice?'--> '
+    echo " "
+    case $choice in
+      1) break;;
+      q) quit;;
+      *) echo "Invalid option! Try again";;
+    esac
+  done
 }
 
 binary_update_menu() {
@@ -205,6 +242,7 @@ list_locs() {
 change_loc() {
   [ -f $MODDIR/.loc ] && insloc="$(cat $MODDIR/.loc)"
   while true; do
+    clear
     echo "$div"
     title_div "Current install location:"
     title_div "$insloc"
@@ -595,12 +633,27 @@ while true; do
   done
 
   case $choice in
-    0) reset_mod;;
-    1) info;;
-    2) change_loc;;
-    3) binary_update_menu;;
-    4) [ -s $MODDIR/.installed ] && list_installed || print_pause "No binaries installed!";;
-    5) echo "Static:"; cat $MODDIR/.binaries | awk '{print $1 " " $2}'; echo " "; echo "Dynamic:"; cat $MODDIR/.binaries-dynamic | awk '{print $1 " " $2}'; echo " ";;
+    0) reset_mod; clear;;
+    1) info; clear;;
+    2) change_loc; clear;;
+    3) binary_update_menu; clear;;
+    4) [ -s $MODDIR/.installed ] && { list_installed; clear; } || print_pause "No binaries installed!";;
+    5) clear
+       echo "$div"
+       title_div "Downloadable Binaries: "
+       echo "$div"
+       echo "Static:"; cat $MODDIR/.binaries | awk '{print $1 " " $2}'; echo " "; echo "Dynamic:"; cat $MODDIR/.binaries-dynamic | awk '{print $1 " " $2}'; echo " "
+       echo -e "\nPress 1 to continue"
+       while true; do
+         read -r choice?'--> '
+         echo " "
+         case $choice in
+           1) break;;
+           q) quit;;
+           *) echo "Invalid option! Try again";;
+         esac
+       done
+       clear;;
     6) [ -s $MODDIR/.installed ] && remove_binary_menu || print_pause "No binaries installed!\n";;
     7) install_binary_menu;;
     8) install_binary_menu -d;;
