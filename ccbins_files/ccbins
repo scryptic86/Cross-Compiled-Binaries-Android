@@ -303,9 +303,9 @@ install_binary() {
       if curl -I --connect-timeout 3 $url/$i.zip | grep -q 'HTTP/.* 200'; then
         $spin && { download_file $MODDIR/$i.zip $url/$i.zip & e_spinner; } || download_file $MODDIR/$i.zip $url/$i.zip
         [ -f $MODDIR/dlerror ] && { remove_binary; return 1; }
-        unzip -l $MODDIR/$i.zip | awk '{print $4}' | sed -e '/^$/d' -e '/^Name$/d' -e '/^----$/d' -e '/\/$/d' >> $MODDIR/.$ibinary
         unzip -qod $MODDIR/system $MODDIR/$i.zip
         for i in $(unzip -l $MODDIR/$i.zip | awk '{print $4}' | sed -e '/^$/d' -e '/^Name$/d' -e '/^----$/d' -e '/\/$/d'); do
+          echo $i >> $MODDIR/.$ibinary
           set_perm $MODDIR/system/$i 0 2000 0644
         done
         rm -f $MODDIR/$i.zip
