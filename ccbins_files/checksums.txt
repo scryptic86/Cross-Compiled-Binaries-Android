@@ -228,10 +228,10 @@ aaa36eefbfddc71dc1f51ae38c65a66b  patchelf/patchelf-x64
 f2ec949f517eb90c2379630ed32a70c3  sqlite3/dynamic/lib-arm64.zip
 b85eaeec8c92536f9b2908b46fc4fe94  sqlite3/dynamic/lib-x64.zip
 0be21b717c709423abea815de2455563  sqlite3/dynamic/lib-x86.zip
-db0bbe7a44d1e960be517b64c7492dbf  sqlite3/dynamic/sqlite-arm
-6011bfa1025851f2794f2e20f2ecd377  sqlite3/dynamic/sqlite-arm64
-d595412b87b73f1498eedb5f2958b655  sqlite3/dynamic/sqlite-x64
-8df20a99f23df1b4ab35bbd2d5aa9a67  sqlite3/dynamic/sqlite-x86
+7d45b750ae68379502e14715c3791070  sqlite3/dynamic/sqlite3-arm
+3e97178b0b69f6e8b4077f69b2c26623  sqlite3/dynamic/sqlite3-arm64
+9d41a27f2cb5f209f4b3e6ab1d859e78  sqlite3/dynamic/sqlite3-x64
+a090581cb4f38de9034e792a9483d23a  sqlite3/dynamic/sqlite3-x86
 621f46b0b8d0c61806c87d9db67e9aa2  strace/strace-arm
 7be5342dfa6c65278b2efce8cacdfe12  strace/strace-arm64
 fe5cb1067711427223a023fbc9ea2945  strace/strace-x64
