@@ -36,7 +36,6 @@ bcd240736b4a2014891c8ab44c2ae559  bc/dc-x86
 59db770b99b630a9ca4354aedd38679b  brotli/brotli-x86
 df3f5e68cc8dba15aab4933d0bc5944a  ccbins_files/ccbins
 d0ef44d9da267536211a475d5bb1b95c  ccbins_files/changelog.txt
-d47055d634b4f4fb84d8b7d234c98dfd  ccbins_files/checksums.txt
 9e5de824dbe7585ee0d795deeb7944a6  ccbins_files/includes-dynamic.txt
 62eb07df6f544463965899181a99fdb6  ccbins_files/includes.txt
 1946ea9972cf8eff2f96dde1df054377  ccbins_files/install.sh
@@ -223,11 +222,11 @@ aaa36eefbfddc71dc1f51ae38c65a66b  patchelf/patchelf-x64
 575a26c1f895a420d698ab10c20a0ada  sed/sed-arm64
 24eb0f3b5cb284e04d4c8358aca4ae75  sed/sed-x64
 24d1ae52402ef57019b2d10d93c0a3f9  sed/sed-x86
-9500a8507863b40434ed9955b2340b7f  sqlite3/dynamic/install.sh
-755d44e2bf4ccb7a77c4f3732ec8d1b1  sqlite3/dynamic/lib-arm.zip
-f2ec949f517eb90c2379630ed32a70c3  sqlite3/dynamic/lib-arm64.zip
-b85eaeec8c92536f9b2908b46fc4fe94  sqlite3/dynamic/lib-x64.zip
-0be21b717c709423abea815de2455563  sqlite3/dynamic/lib-x86.zip
+ea10baf4695c9291d7aee10fb60a4b79  sqlite3/dynamic/install.sh
+80d84fcf330feb331178741ac2cf40b0  sqlite3/dynamic/lib-arm.zip
+c4e70939c4c3692401b820d27ff03967  sqlite3/dynamic/lib-arm64.zip
+5d9cb1310d093a35accc7cc9c80ca2c7  sqlite3/dynamic/lib-x64.zip
+ca0540a858b1fd2066ca6adae8088704  sqlite3/dynamic/lib-x86.zip
 7d45b750ae68379502e14715c3791070  sqlite3/dynamic/sqlite3-arm
 3e97178b0b69f6e8b4077f69b2c26623  sqlite3/dynamic/sqlite3-arm64
 9d41a27f2cb5f209f4b3e6ab1d859e78  sqlite3/dynamic/sqlite3-x64
