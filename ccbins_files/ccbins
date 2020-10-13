@@ -573,7 +573,7 @@ elif [ -f $MODDIR/.updated ]; then
   sleep 2
 fi
 if test_connection; then
-  branch=$(grep -w "$choice:" $MODDIR/tmp | awk '{print $2}')
+  branch=master
   force_update
   online=true
   echo -e "\nFetching available binaries"
