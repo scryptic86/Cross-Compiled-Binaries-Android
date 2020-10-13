@@ -39,7 +39,7 @@ set -x 2>$VERLOG
 # > You can start your MOD here.
 # > You can add functions, variables & etc.
 # > Rather than editing the default vars above.
-scriptver=17
+scriptver=18
 branch=testing
 # Curl uses boringssl - first appeared in Marshmallow - don't try using ssl in older android versions
 [ $API -lt 23 ] && alias curl="$MODDIR/curl -kLs" || alias curl="$MODDIR/curl -Ls"
@@ -573,6 +573,8 @@ elif [ -f $MODDIR/.updated ]; then
   sleep 2
 fi
 if test_connection; then
+  branch=$(grep -w "$choice:" $MODDIR/tmp | awk '{print $2}')
+  force_update
   online=true
   echo -e "\nFetching available binaries"
   rm -f $MODDIR/.binaries $MODDIR/.binaries-dynamic $MODDIR/.checksums
